@@ -20,11 +20,7 @@ export function TabTrack() {
     const submitButton = document.createElement('button');
     submitButton.className = 'button button-yellow mt-5';
     submitButton.textContent = 'Start Tracking';
-    
-    // Task display section
-    const taskDisplay = document.createElement('div');
-    taskDisplay.className = 'task-display mt-4';
-    
+        
     const clearButton = document.createElement('button');
     clearButton.className = 'button button-gray mt-2';
     clearButton.textContent = 'Clear Tasks';
@@ -56,8 +52,6 @@ export function TabTrack() {
                         window.location.hash = '/main';
                         window.location.hash = '/main';
                     }, 100);
-                } else {
-                    console.error("Failed to start tracking:", response);
                 } else {
                     console.error("Failed to start tracking:", response);
                 }

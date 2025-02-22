@@ -138,43 +138,6 @@ function handleTabActivated(activeInfo) {
 // Message handler
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "startTracking") {
-<<<<<<< HEAD
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-          if (tabs.length === 0) {
-              sendResponse({ success: false, error: "No active tab found" });
-              return;
-          }
-          
-          const currentTabUrl = tabs[0].url; 
-          const payload = {
-              url: currentTabUrl,
-              task: message.goal,
-              whitelist: ["python.org", "docs.python.org"],
-              blacklist: ["facebook.com", "twitter.com"]
-          };
-
-          fetch("http://localhost:8000/analyze", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json"
-              },
-              body: JSON.stringify(payload)
-          })
-          .then(response => response.json())
-          .then(data => {
-              console.log("Tracking response:", data);
-              sendResponse({ success: true, goal: message.goal });
-          })
-          .catch(error => {
-              console.error("Error tracking task:", error);
-              sendResponse({ success: false, error: error.message });
-          });
-
-          return true;  // This keeps the response channel open for async fetch
-      });
-
-      return true;  // Keeps `sendResponse()` valid
-=======
     console.log("Received task:", message.goal);
     console.log("Received whitelist:", message.whitelist);
     console.log("Received blacklist:", message.blacklist);
@@ -184,7 +147,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   } else if (message.type === "stopTracking") {
     handleStopTracking(message, sender, sendResponse);
     return true;
->>>>>>> c90af896fa99ef09c2e4bd5b3667158ac949275a
   }
 });
 
