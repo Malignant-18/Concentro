@@ -1,26 +1,14 @@
 import { Link } from '../../popup.js';
 
+
 export function TabTrack() {
     const container = document.createElement('div');
     container.className = 'mt-5 flex flex-col items-start';
     
-    const backButton = document.createElement('button');
-    backButton.className = 'button button-gray mr-2';
-    backButton.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-arrow-left">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M16 12H8"/>
-            <path d="m12 8-4 4 4 4"/>
-        </svg>
-    `;
-    backButton.onclick = () => {
-        window.location.href = '/main';
-    };
-
     const title = document.createElement('h1');
-    title.className = 'text-3xl font-bold flex items-center';
-    title.innerHTML = `${backButton.outerHTML} Enter a Task`;
-
+    title.className = 'text-3xl font-bold';
+    title.textContent = 'Enter a Task';
+    
     const underline = document.createElement('hr');
     underline.className = 'my-4 border-gray-300';
     
@@ -32,20 +20,40 @@ export function TabTrack() {
     submitButton.className = 'button button-yellow mt-5';
     submitButton.textContent = 'Start Tracking';
     
+    const clearButton = document.createElement('button');
+    clearButton.className = 'button button-gray mt-2';
+    clearButton.textContent = 'Clear Tasks';
+    
+    // Task display section
+    const taskDisplay = document.createElement('div');
+    taskDisplay.className = 'task-display mt-4';
+    
     submitButton.addEventListener('click', () => {
         const taskText = textarea.value.trim();
         if (taskText) {
             console.log("User input received:", taskText);
+            // Send message to background script
             chrome.runtime.sendMessage({
                 type: "startTracking",
                 goal: taskText
-            }, (response) => {
+            }, function(response) {
+                // Log the entire response to see what we're getting
+                console.log("Full response from background:", response);
+                
                 if (response && response.success) {
                     console.log("Tracking started with goal:", response.goal);
+                    console.log("Tracking data from backend:", response);
+                    
+                    // Display the current task
+                    displayTask(taskText);
+                    
+                    // No need to send another message, the background script already did that
                     alert("Task tracking started!");
                     setTimeout(() => {
-                        window.location.href = '/main';
+                        window.location.hash = '/main';
                     }, 100);
+                } else {
+                    console.error("Failed to start tracking:", response);
                 }
             });
         } else {
@@ -53,10 +61,40 @@ export function TabTrack() {
         }
     });
     
+    function displayTask(task) {
+        console.log("Displaying task:", task); // Debugging log
+        // Clear previous task display
+        taskDisplay.innerHTML = '';
+
+        const taskItem = document.createElement('div');
+        taskItem.className = 'task-item flex justify-between items-center p-2 border rounded bg-gray-100 mt-2';
+
+        const taskText = document.createElement('span');
+        taskText.textContent = task;
+        
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'button button-red';
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => {
+            taskDisplay.innerHTML = ''; // Clear the task display
+            textarea.value = ''; // Clear the input field
+            console.log("Task deleted.");
+        });
+        
+        taskItem.appendChild(taskText);
+        taskItem.appendChild(deleteButton);
+        taskDisplay.appendChild(taskItem);
+    }
+    
     container.appendChild(title);
     container.appendChild(underline);
     container.appendChild(textarea);
     container.appendChild(submitButton);
+    container.appendChild(clearButton);
+    container.appendChild(taskDisplay);
+    
+    const backButton = Link('/main', 'Go Back', 'mt-5 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-500 transition button-right');
+    container.appendChild(backButton);
     
     return container;
-} 
+}

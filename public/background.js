@@ -5,7 +5,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
               sendResponse({ success: false, error: "No active tab found" });
               return;
           }
-
+          
           const currentTabUrl = tabs[0].url; 
           const payload = {
               url: currentTabUrl,
