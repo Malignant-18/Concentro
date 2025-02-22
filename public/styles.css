@@ -83,8 +83,7 @@ hr {
 .task-icon {
     height: 1rem; /* Adjust height */
     width: 0.75rem; /* Adjust width */
-    margin-right: 0.5rem; 
-    margin-left: 1rem;
+    margin-right: 0.5rem;
 }
 
 /* Button text alignment */
@@ -92,4 +91,96 @@ hr {
     text-align: left; /* Align text to the left */
     display: flex; /* Use flexbox for alignment */
     align-items: center; /* Center items vertically */
+    width: 100%;
+}
+
+/* Coffee Button Styles */
+.coffee-button {
+    width: 100%; /* Full width */
+    margin-top: 1.5rem; /* Margin on top */
+    display: flex; /* Flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Space between text and SVG */
+    border-radius: 0.5rem; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    padding: 0.75rem; /* Padding */
+    transition: background-color 0.2s; /* Transition for background color */
+    background-color: rgb(253, 244, 224); /* Background color */
+    color: #1f2937; /* Text color */
+    border: 1px solid #d1d5db; /* Border */
+}
+
+.coffee-button:hover {
+    background-color: #ffffff;
+}
+
+.coffee-button-text {
+    display: flex;
+    flex-direction: column; /* Stack the text vertically */
+    align-items: flex-start; /* Align text to the left */
+    justify-content: start; /* Start alignment */
+}
+
+.coffee-button-text .main-text {
+    color: black; /* Black color for the main text */
+    font-size: 1.25rem; /* Larger font size for the main text */
+}
+
+.coffee-button-text .sub-text {
+    color: rgb(72, 71, 71); /* Gray color for the sub text */
+    font-size: 0.875rem; /* Smaller font size for the sub text */
+}
+
+/* SVG Icon Styles */
+.coffee-button svg {
+    margin-left: 0.5rem; /* Add margin to the left of the SVG */
+    width: 24px; /* Set width */
+    height: 24px; /* Set height */
+}
+
+/* Coffee Image Styles */
+.coffee-img {
+    height: 24px; /* Set the desired height */
+    width: 24px; /* Set the desired width */
+    margin-right: 0.5rem; /* Add some space to the right of the image */
+}
+
+/* General Button Styles */
+.button {
+    padding: 0.5rem 1rem; /* Padding for buttons */
+    border-radius: 0.375rem; /* Rounded corners */
+    transition: background-color 0.2s; /* Transition for background color */
+}
+
+/* Specific Button Styles */
+.button-yellow {
+    background-color: #fbbf24; /* Yellow background */
+    color: #1f2937; /* Text color */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.button-yellow:hover {
+    background-color: #fcd34d; /* Lighter yellow on hover */
+}
+
+.button-gray {
+    background-color: #4b5563; /* Gray background */
+    color: white; /* White text */
+}
+
+.button-gray:hover {
+    background-color: #374151; /* Darker gray on hover */
+}
+
+/* Textarea Styles */
+.textarea {
+    margin-top: 1.25rem; /* Margin on top */
+    width: 94%; /* Full width */
+    height: 4rem; /* Height */
+    padding: 0.5rem; /* Padding */
+    border: 1px solid #9ca3af; /* Border color */
+    border-radius: 0.375rem; /* Rounded corners */
+    margin-bottom: 1rem;
 }

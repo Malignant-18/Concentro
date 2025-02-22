@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import requests
 from bs4 import BeautifulSoup
@@ -15,11 +16,22 @@ logger = logging.getLogger(__name__)
 # Initialize FastAPI app
 app = FastAPI()
 
+# Add CORS middleware configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins for development
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
+# Your existing classes and functions remain the same
 class AnalyzeRequest(BaseModel):
     url: str
     task: str
     whitelist: Optional[List[str]] = []
     blacklist: Optional[List[str]] = []
+
 
 class AnalyzeResponse(BaseModel):
     is_relevant: bool
@@ -186,7 +198,6 @@ async def health_check():
     Simple health check endpoint
     """
     return {"status": "healthy"}
-
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("backend:app", host="0.0.0.0", port=8000, reload=True)
