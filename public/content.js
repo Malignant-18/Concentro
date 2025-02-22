@@ -1,48 +1,149 @@
+// Initialize tracking state
+let isTrackingActive = false;
+let currentTrackingGoal = "";
+
+// Check tracking state on load
+function checkTrackingState() {
+  chrome.runtime.sendMessage({ type: "getTrackingState" }, (response) => {
+    if (chrome.runtime.lastError) {
+      console.error(chrome.runtime.lastError);
+      return;
+    }
+    
+    if (response && response.isTracking) {
+      isTrackingActive = true;
+      currentTrackingGoal = response.goal;
+      createOrUpdateDot();
+    } else {
+      isTrackingActive = false;
+      currentTrackingGoal = "";
+      removeDot();
+    }
+  });
+}
+
+// Listen for messages from the background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "displayTrackingResult") {
-        // Create a popup div
-        const popup = document.createElement('div');
-        popup.classList.add('popup');
-
-        // Display success or error message
-        const statusMessage = message.success
-            ? `Goal "${message.goal}" was successfully tracked!`
-            : `Error: ${message.error || 'Unknown error'}`;
-
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('popup-message');
-        messageDiv.textContent = statusMessage;
-
-        // Append message to the popup
-        popup.appendChild(messageDiv);
-
-        // Append the popup to the body
-        document.body.appendChild(popup);
-
-        // Remove popup after 5 seconds
-        setTimeout(() => {
-            popup.remove();
-        }, 5000);
+      console.log("Received tracking results:", message.data);
+      // Handle the tracking results for this tab
+      if (message.success) {
+        // Display tracking status
+        injectGlowingDot();
+        // You can add more UI elements or notifications here
+      }
+    } else if (message.type === "stopTracking") {
+      // Remove tracking indicators
+      const dot = document.querySelector('.tracking-dot');
+      if (dot) dot.remove();
     }
-});
-const style = document.createElement('style');
-style.textContent = `
-  .popup {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 15px;
-      background-color: #4CAF50;
-      color: white;
-      border-radius: 5px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      z-index: 9999;
-      font-family: Arial, sans-serif;
-  }
+  });
+
+// Create or update the glowing dot
+function createOrUpdateDot() {
+  let dot = document.getElementById('tracking-dot');
   
-  .popup-message {
-      font-size: 14px;
-      font-weight: bold;
+  if (!dot) {
+    // Only create styles once
+    if (!document.getElementById('tracking-dot-styles')) {
+      const styles = `
+        #tracking-dot {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          width: 12px;
+          height: 12px;
+          background-color: #00ff00;
+          border-radius: 50%;
+          z-index: 2147483647;
+          pointer-events: none;
+          box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+          animation: dotPulse 2s infinite;
+          transition: all 0.3s ease;
+        }
+
+        @keyframes dotPulse {
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.2); opacity: 0.8; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `;
+
+      const styleElement = document.createElement('style');
+      styleElement.id = 'tracking-dot-styles';
+      styleElement.textContent = styles;
+      document.head.appendChild(styleElement);
+    }
+
+    dot = document.createElement('div');
+    dot.id = 'tracking-dot';
+    document.body.appendChild(dot);
   }
-`;
-document.head.appendChild(style);
+
+  return dot;
+}
+
+// Check state when page loads
+document.addEventListener('DOMContentLoaded', checkTrackingState);
+
+// Periodically check tracking state
+setInterval(checkTrackingState, 5000);
+
+// Check state when page becomes visible
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    checkTrackingState();
+  }
+});
+
+  
+  // Ensure dot remains visible after dynamic content loads
+  const observer = new MutationObserver((mutations) => {
+    chrome.runtime.sendMessage({ type: "getTrackingState" }, (response) => {
+      if (response && response.isTracking && !document.getElementById('tracking-dot')) {
+        createOrUpdateDot();
+      }
+    });
+  });
+  
+  // Start observing the document with configured parameters
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+
+// Function to create and show a notification box
+function showNotification(message, isRelevant) {
+  const notificationBox = document.createElement('div');
+  notificationBox.style.position = 'fixed';
+  notificationBox.style.top = '10px';
+  notificationBox.style.right = '10px';
+  notificationBox.style.padding = '10px';
+  notificationBox.style.zIndex = '9999';
+  notificationBox.style.borderRadius = '5px';
+  notificationBox.style.color = 'white';
+  notificationBox.style.fontSize = '16px';
+  notificationBox.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
+  
+  if (isRelevant) {
+    notificationBox.style.backgroundColor = 'green'; // Green for relevant
+  } else {
+    notificationBox.style.backgroundColor = 'red'; // Red for not relevant
+  }
+
+  notificationBox.innerText = message;
+
+  document.body.appendChild(notificationBox);
+
+  // Remove the notification after 5 seconds
+  setTimeout(() => {
+    notificationBox.remove();
+  }, 5000);
+}
+
+// Listen for messages from the background script
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "displayTrackingResult") {
+    showNotification(message.data.is_relevant ? "Website matches task!" : "Website doesn't match task!", message.data.is_relevant);
+  }
+});

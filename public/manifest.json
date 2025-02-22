@@ -13,8 +13,11 @@
       "activeTab",
       "scripting",
       "storage",
-      "webNavigation"
+      "webNavigation",
+      "<all_urls>"
+
     ],
+    
     "content_scripts": [
       {
         "matches": ["<all_urls>"], 
@@ -22,9 +25,7 @@
       }
     ],
   
-    "host_permissions": [
-      "http://localhost:8080/*"
-    ],
+   "host_permissions": ["<all_urls>"],
     "background": {
       "service_worker": "background.js"
     },
