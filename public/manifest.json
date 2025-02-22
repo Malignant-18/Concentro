@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "Productivity Extension",
+    "version": "1.0",
+    "description": "A simple productivity Chrome extension with task management features.",
+    "action": {
+      "default_popup": "popup.html",
+      "default_width": 400,
+      "default_height": 500
+    },
+    "permissions": [],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_security_policy": {
+      "extension_pages": "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; object-src 'self'"
+    }
+  }
