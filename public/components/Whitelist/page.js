@@ -11,6 +11,13 @@ export function Whitelist() {
     const underline = document.createElement('hr');
     underline.className = 'my-4 border-gray-300';
     
+    const whitelistContainer = document.createElement('div');
+    whitelistContainer.className = 'mt-4';
+    const whitelistTitle = document.createElement('h2');
+
+    whitelistTitle.textContent = 'Whitelist Entries:';
+    whitelistContainer.appendChild(whitelistTitle);
+
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'mt-5 w-full p-2 border border-gray-400 rounded';
@@ -20,11 +27,6 @@ export function Whitelist() {
     addButton.className = 'mt-5 px-4 py-2 bg-yellow-400 text-gray-800 rounded hover:bg-yellow-300 transition button';
     addButton.textContent = 'Add + ';
     
-    const whitelistContainer = document.createElement('div');
-    whitelistContainer.className = 'mt-4';
-    const whitelistTitle = document.createElement('h2');
-    whitelistTitle.textContent = 'Whitelist Entries:';
-    whitelistContainer.appendChild(whitelistTitle);
 
     const whitelistList = document.createElement('ul');
     whitelistContainer.appendChild(whitelistList);
@@ -115,9 +117,9 @@ export function Whitelist() {
 
     container.appendChild(title);
     container.appendChild(underline);
+    container.appendChild(whitelistContainer);
     container.appendChild(input);
     container.appendChild(addButton);
-    container.appendChild(whitelistContainer);
     container.appendChild(whitelistList);
     container.appendChild(blacklistContainer);
     container.appendChild(blacklistInput);

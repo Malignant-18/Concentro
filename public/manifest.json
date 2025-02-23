@@ -14,8 +14,9 @@
       "scripting",
       "storage",
       "webNavigation",
-      "<all_urls>"
-
+      "<all_urls>",
+      "alarms",
+      "notifications"
     ],
     
     "content_scripts": [

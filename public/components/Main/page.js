@@ -27,7 +27,7 @@ export function Main() {
     const tasks = [
         { text: 'Tab Track', icon: '<img src="assets/tab-track.png" alt="Tab Track" class="task-icon" />', link: '/tab-track' },
         { text: 'Pomodoro', icon: '<img src="assets/pomodoro.png" alt="Pomodoro" class="task-icon" />', link: '/pomodoro' },
-        { text: 'Whitelist', icon: '<img src="assets/list.png" alt="Whitelist" class="task-icon" />', link: '/whitelist' },
+        { text: 'WhiteList', icon: '<img src="assets/list.png" alt="Whitelist" class="task-icon" />', link: '/whitelist' },
         { text: 'Leaderboard', icon: '<img src="assets/leaderboard.png" alt="Leaderboard" class="task-icon" />', link: '/leaderboard' }
     ];
 

@@ -5,13 +5,10 @@ export function TabTrack() {
     const container = document.createElement('div');
     container.className = 'mt-5 flex flex-col items-start';
     
-    // Create back button using Link function
-    const backButton = Link('/main', 'Go Back', 'button button-gray mr-2');
-    
     const title = document.createElement('h1');
-    title.className = 'text-3xl font-bold flex items-center';
-    title.innerHTML = `${backButton.outerHTML} Enter a Task`;
-
+    title.className = 'text-3xl font-bold';
+    title.textContent = 'Enter a Task';
+    
     const underline = document.createElement('hr');
     underline.className = 'my-4 border-gray-300';
     
@@ -22,6 +19,10 @@ export function TabTrack() {
     const submitButton = document.createElement('button');
     submitButton.className = 'button button-yellow mt-5';
     submitButton.textContent = 'Start Tracking';
+    
+    const clearButton = document.createElement('button');
+    clearButton.className = 'button button-gray mt-2';
+    clearButton.textContent = 'Clear Tasks';
     
     // Task display section
     const taskDisplay = document.createElement('div');
@@ -70,7 +71,7 @@ export function TabTrack() {
 
         const taskText = document.createElement('span');
         taskText.textContent = task;
-
+        
         const deleteButton = document.createElement('button');
         deleteButton.className = 'button button-red';
         deleteButton.textContent = 'Delete';
@@ -79,7 +80,7 @@ export function TabTrack() {
             textarea.value = ''; // Clear the input field
             console.log("Task deleted.");
         });
-
+        
         taskItem.appendChild(taskText);
         taskItem.appendChild(deleteButton);
         taskDisplay.appendChild(taskItem);
@@ -89,7 +90,11 @@ export function TabTrack() {
     container.appendChild(underline);
     container.appendChild(textarea);
     container.appendChild(submitButton);
-    container.appendChild(taskDisplay); // Append the task display section
+    container.appendChild(clearButton);
+    container.appendChild(taskDisplay);
+    
+    const backButton = Link('/main', 'Go Back', 'mt-5 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-500 transition button-right');
+    container.appendChild(backButton);
     
     return container;
 }
