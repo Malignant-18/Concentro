@@ -1,0 +1,47 @@
+.
+├── app
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.js
+│   └── page.js
+├── backend.py
+├── jsconfig.json
+├── LICENSE
+├── next.config.mjs
+├── package.json
+├── package-lock.json
+├── postcss.config.mjs
+├── public
+│   ├── assets
+│   │   ├── coffee.png
+│   │   ├── leaderboard.png
+│   │   ├── list.png
+│   │   ├── pomodoro.png
+│   │   ├── productivity.png
+│   │   └── tab-track.png
+│   ├── backend.py
+│   ├── background.js
+│   ├── components
+│   │   ├── Leaderboard
+│   │   │   └── page.js
+│   │   ├── Main
+│   │   │   └── page.js
+│   │   ├── Pomodoro
+│   │   │   └── page.js
+│   │   ├── TabTrack
+│   │   │   └── page.js
+│   │   ├── Welcome
+│   │   │   └── page.js
+│   │   └── Whitelist
+│   │       └── page.js
+│   ├── content.js
+│   ├── manifest.json
+│   ├── popup.html
+│   ├── popup.js
+│   └── styles.css
+├── README.md
+├── requirements.txt
+├── tailwind.config.mjs
+└── t.txt
+
+11 directories, 34 files
