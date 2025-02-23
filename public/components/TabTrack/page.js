@@ -24,7 +24,6 @@ export function TabTrack() {
     clearButton.className = 'button button-gray mt-2';
     clearButton.textContent = 'Clear Tasks';
     
-    // Task display section
     const taskDisplay = document.createElement('div');
     taskDisplay.className = 'task-display mt-4';
     
@@ -32,22 +31,17 @@ export function TabTrack() {
         const taskText = textarea.value.trim();
         if (taskText) {
             console.log("User input received:", taskText);
-            // Send message to background script
             chrome.runtime.sendMessage({
                 type: "startTracking",
                 goal: taskText
             }, function(response) {
-                // Log the entire response to see what we're getting
                 console.log("Full response from background:", response);
                 
                 if (response && response.success) {
                     console.log("Tracking started with goal:", response.goal);
                     console.log("Tracking data from backend:", response);
+                     displayTask(taskText);
                     
-                    // Display the current task
-                    displayTask(taskText);
-                    
-                    // No need to send another message, the background script already did that
                     alert("Task tracking started!");
                     setTimeout(() => {
                         window.location.hash = '/main';
@@ -63,19 +57,15 @@ export function TabTrack() {
     clearButton.addEventListener("click", () => {
         console.log("User pressed clear button");
       
-        // Send message to background script to stop tracking
         chrome.runtime.sendMessage({ type: "stopTracking" }, function (response) {
           if (chrome.runtime.lastError) {
             console.error("Error sending stopTracking message:", chrome.runtime.lastError.message);
             return;
           }
-      
-          // Log the entire response to confirm tracking has stopped
-          console.log("Full response from background:", response);
+                console.log("Full response from background:", response);
       
           if (response && response.success) {
             console.log("Tracking successfully stopped.");
-            // Update UI accordingly (if needed)
             document.getElementById("title").innerText = "TrackingStopped"; 
           } else {
             console.error("Failed to stop tracking.");
@@ -85,8 +75,7 @@ export function TabTrack() {
       
     
     function displayTask(task) {
-        console.log("Displaying task:", task); // Debugging log
-        // Clear previous task display
+        console.log("Displaying task:", task);
         taskDisplay.innerHTML = '';
 
         const taskItem = document.createElement('div');
@@ -99,8 +88,8 @@ export function TabTrack() {
         deleteButton.className = 'button button-red';
         deleteButton.textContent = 'Delete';
         deleteButton.addEventListener('click', () => {
-            taskDisplay.innerHTML = ''; // Clear the task display
-            textarea.value = ''; // Clear the input field
+            taskDisplay.innerHTML = ''; 
+            textarea.value = ''; 
             console.log("Task deleted.");
         });
         

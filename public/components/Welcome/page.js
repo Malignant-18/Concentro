@@ -14,7 +14,7 @@ export function Welcome() {
 
     titleContainer.appendChild(concentroText);
 
-    const startButton = Link('/main', 'Start', 'mt-5 px-4 py-2 bg-yellow-400 text-gray-800 rounded hover:bg-yellow-300 transition');
+    const startButton = Link('/main', "Let's Start", 'mt-5 px-4 py-2 bg-yellow-400 text-gray-800 rounded hover:bg-yellow-300 transition');
     
     const productivityImage = document.createElement('img');
     productivityImage.src = 'assets/productivity.png';

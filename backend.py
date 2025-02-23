@@ -9,23 +9,19 @@ import logging
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Set up logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-# Initialize FastAPI app
 app = FastAPI()
 
-# Add CORS middleware configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins for development
+    allow_origins=["*"],  
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
 
-# Your existing classes and functions remain the same
 class AnalyzeRequest(BaseModel):
     url: str
     task: str
@@ -45,10 +41,8 @@ def preprocess_text(text: str) -> str:
     try:
         logger.debug(f"Starting text preprocessing. Input length: {len(text)}")
         
-        # Convert to lowercase
         text = text.lower()
         
-        # Remove special characters and extra whitespace
         text = re.sub(r'[^\w\s]', ' ', text)
         text = re.sub(r'\s+', ' ', text).strip()
         
@@ -63,12 +57,10 @@ def check_url_patterns(url: str, whitelist: List[str], blacklist: List[str]) -> 
     Check if URL matches any whitelist or blacklist patterns
     """
     try:
-        # Check whitelist
         for pattern in whitelist:
             if pattern in url:
                 return True
         
-        # Check blacklist
         for pattern in blacklist:
             if pattern in url:
                 return False
@@ -94,14 +86,11 @@ def extract_webpage_content(url: str) -> str:
         
         soup = BeautifulSoup(response.text, 'html.parser')
         
-        # Remove script and style elements
         for element in soup(['script', 'style', 'meta', 'link']):
             element.decompose()
         
-        # Get text content
         text = soup.get_text(separator=' ', strip=True)
         
-        # Clean up whitespace
         text = re.sub(r'\s+', ' ', text).strip()
         
         logger.debug(f"Successfully extracted content. Length: {len(text)}")
@@ -121,26 +110,21 @@ def calculate_relevance(task_text: str, page_text: str) -> tuple[float, str]:
     try:
         logger.debug("Starting relevance calculation")
         
-        # Preprocess texts
         task_processed = preprocess_text(task_text)
         page_processed = preprocess_text(page_text)
         
         if not task_processed or not page_processed:
             raise ValueError("Empty text after preprocessing")
         
-        # Create TF-IDF vectors
         vectorizer = TfidfVectorizer(
             max_features=5000,
             stop_words='english'
         )
         
-        # Fit and transform the texts
         tfidf_matrix = vectorizer.fit_transform([task_processed, page_processed])
         
-        # Calculate similarity
         similarity = float(cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])[0][0])
         
-        # Generate reason
         if similarity >= 0.3:
             reason = "Content appears to be related to your task"
         elif similarity >= 0.1:
@@ -172,13 +156,10 @@ async def analyze_webpage(request: AnalyzeRequest):
                 reason="URL matches whitelist/blacklist pattern"
             )
         
-        # Extract content
         page_content = extract_webpage_content(request.url)
         
-        # Calculate relevance
         similarity_score, reason = calculate_relevance(request.task, page_content)
         
-        # Prepare response
         response = AnalyzeResponse(
             is_relevant=similarity_score >= 0.1,
             confidence_score=similarity_score,

@@ -37,5 +37,4 @@ window.addEventListener('popstate', () => {
     navigate(window.location.hash.slice(1));
 });
 
-// Initial navigation to the welcome page
 navigate('/');

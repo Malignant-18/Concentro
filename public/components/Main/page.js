@@ -63,7 +63,7 @@ export function Main() {
     });
     
     const coffeeButton = document.createElement('button');
-    coffeeButton.className = 'coffee-button'; // Use the new coffee button class
+    coffeeButton.className = 'coffee-button'; 
     coffeeButton.innerHTML = `
         <div class="coffee-button-text">
             <img src="assets/coffee.png" alt="Coffee" class="coffee-img" />
@@ -77,9 +77,8 @@ export function Main() {
         </svg>
     `;
 
-    // Add event listener to navigate to the URL when clicked
     coffeeButton.addEventListener('click', () => {
-        window.open('https://concentronotmain.vercel.app/', '_blank'); // Open in a new tab
+        window.open('https://concentronotmain.vercel.app/', '_blank'); 
     });
 
     container.appendChild(title);
