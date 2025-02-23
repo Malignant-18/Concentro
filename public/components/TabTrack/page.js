@@ -1,7 +1,6 @@
 import { Link } from '../../popup.js';
 
 
-
 export function TabTrack() {
     const container = document.createElement('div');
     container.className = 'mt-5 flex flex-col items-start';
@@ -20,10 +19,6 @@ export function TabTrack() {
     const submitButton = document.createElement('button');
     submitButton.className = 'button button-yellow mt-5';
     submitButton.textContent = 'Start Tracking';
-        
-    const clearButton = document.createElement('button');
-    clearButton.className = 'button button-gray mt-2';
-    clearButton.textContent = 'Clear Tasks';
     
     const clearButton = document.createElement('button');
     clearButton.className = 'button button-gray mt-2';
@@ -45,15 +40,16 @@ export function TabTrack() {
                 // Log the entire response to see what we're getting
                 console.log("Full response from background:", response);
                 
-            }, function(response) {
-                // Log the entire response to see what we're getting
-                console.log("Full response from background:", response);
-                
                 if (response && response.success) {
                     console.log("Tracking started with goal:", response.goal);
+                    console.log("Tracking data from backend:", response);
+                    
+                    // Display the current task
+                    displayTask(taskText);
+                    
+                    // No need to send another message, the background script already did that
                     alert("Task tracking started!");
                     setTimeout(() => {
-                        window.location.hash = '/main';
                         window.location.hash = '/main';
                     }, 100);
                 } else {
