@@ -20,6 +20,8 @@ Concentro is a productivity extension designed to help users manage their time e
 
 ## Live Demo
 
+A live demo of Concentro extension can be seen at [https://youtu.be/lel1VQTj_pI](https://youtu.be/lel1VQTj_pI).
+
 
 ## Website
 
