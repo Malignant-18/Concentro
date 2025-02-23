@@ -49,18 +49,67 @@ export function Whitelist() {
     addBlacklistButton.className = 'mt-5 px-4 py-2 bg-red-400 text-white rounded hover:bg-red-300 transition button';
     addBlacklistButton.textContent = 'Add + ';
 
+// Function to create list item with delete button
+function createListItem(url, list, storageKey) {
+    const listItem = document.createElement('li');
+    listItem.className = 'list-item'; // Assign a CSS class
+
+    const urlText = document.createElement('span');
+    urlText.textContent = url;
+    urlText.className = 'url-text'; // Assign a CSS class
+
+    const deleteButton = document.createElement('button');
+    deleteButton.className = 'custom-delete-btn'; // Assign a CSS class
+    deleteButton.textContent = 'Delete';
+
+    deleteButton.addEventListener('click', async () => {
+        const { [storageKey]: urls = [] } = await chrome.storage.local.get([storageKey]);
+        const updatedUrls = urls.filter(item => item !== url);
+        await chrome.storage.local.set({ [storageKey]: updatedUrls });
+        listItem.remove();
+    });
+
+    listItem.appendChild(urlText);
+    listItem.appendChild(deleteButton);
+    list.appendChild(listItem);
+}
+
+    // Function to load existing entries
+    async function loadExistingEntries() {
+        const { whitelist = [] } = await chrome.storage.local.get(['whitelist']);
+        const { blacklist = [] } = await chrome.storage.local.get(['blacklist']);
+
+        // Clear existing items
+        whitelistList.innerHTML = '';
+        blacklistList.innerHTML = '';
+
+        // Load whitelist entries
+        whitelist.forEach(url => {
+            createListItem(url, whitelistList, 'whitelist');
+        });
+
+        // Load blacklist entries
+        blacklist.forEach(url => {
+            createListItem(url, blacklistList, 'blacklist');
+        });
+    }
+
+    // Load existing entries when component is created
+    loadExistingEntries();
 
     // Add entry to whitelist
     addButton.addEventListener('click', async () => {
         const url = input.value.trim();
         if (url) {
             const { whitelist = [] } = await chrome.storage.local.get(['whitelist']);
-            whitelist.push(url);
-            await chrome.storage.local.set({ whitelist });
-            const listItem = document.createElement('li');
-            listItem.textContent = url;
-            whitelistList.appendChild(listItem);
-            input.value = ''; // Clear input field
+            if (!whitelist.includes(url)) {  // Prevent duplicate entries
+                whitelist.push(url);
+                await chrome.storage.local.set({ whitelist });
+                createListItem(url, whitelistList, 'whitelist');
+                input.value = ''; // Clear input field
+            } else {
+                alert("This URL is already in the whitelist!");
+            }
         } else {
             alert("Please enter a URL for the whitelist!");
         }
@@ -71,12 +120,14 @@ export function Whitelist() {
         const url = blacklistInput.value.trim();
         if (url) {
             const { blacklist = [] } = await chrome.storage.local.get(['blacklist']);
-            blacklist.push(url);
-            await chrome.storage.local.set({ blacklist });
-            const listItem = document.createElement('li');
-            listItem.textContent = url;
-            blacklistList.appendChild(listItem);
-            blacklistInput.value = ''; // Clear input field
+            if (!blacklist.includes(url)) {  // Prevent duplicate entries
+                blacklist.push(url);
+                await chrome.storage.local.set({ blacklist });
+                createListItem(url, blacklistList, 'blacklist');
+                blacklistInput.value = ''; // Clear input field
+            } else {
+                alert("This URL is already in the blacklist!");
+            }
         } else {
             alert("Please enter a URL for the blacklist!");
         }

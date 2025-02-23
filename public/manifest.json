@@ -3,10 +3,20 @@
     "name": "Productivity Extension",
     "version": "1.0",
     "description": "A simple productivity Chrome extension with task management features.",
+    "icons": {
+      "16": "assets/logo.png",
+      "48": "assets/logo.png",
+      "128": "assets/logo.png"
+    },
     "action": {
       "default_popup": "popup.html",
       "default_width": 400,
-      "default_height": 500
+      "default_height": 500,
+      "default_icon": {
+        "16": "assets/logo.png",
+        "48": "assets/logo.png",
+        "128": "assets/logo.png"
+      }
     },
     "permissions": [
       "tabs",

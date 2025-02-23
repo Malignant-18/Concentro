@@ -77,6 +77,10 @@ export function Main() {
         </svg>
     `;
 
+    // Add event listener to navigate to the URL when clicked
+    coffeeButton.addEventListener('click', () => {
+        window.open('https://concentronotmain.vercel.app/', '_blank'); // Open in a new tab
+    });
 
     container.appendChild(title);
     container.appendChild(underline);
