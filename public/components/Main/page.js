@@ -21,14 +21,14 @@ export function Main() {
     const buttonGrid = document.createElement('div');
     buttonGrid.className = 'grid grid-cols-2 gap-3 mt-4 w-full';
     buttonGrid.style.display = 'grid';
-    buttonGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+    buttonGrid.style.gridTemplateColumns = 'repeat(1, 1fr)';
     buttonGrid.style.gap = '0.75rem';
 
     const tasks = [
         { text: 'Tab Track', icon: '<img src="assets/tab-track.png" alt="Tab Track" class="task-icon" />', link: '/tab-track' },
         { text: 'Pomodoro', icon: '<img src="assets/pomodoro.png" alt="Pomodoro" class="task-icon" />', link: '/pomodoro' },
         { text: 'WhiteList', icon: '<img src="assets/list.png" alt="Whitelist" class="task-icon" />', link: '/whitelist' },
-        { text: 'Leaderboard', icon: '<img src="assets/leaderboard.png" alt="Leaderboard" class="task-icon" />', link: '/leaderboard' }
+        // { text: 'Leaderboard', icon: '<img src="assets/leaderboard.png" alt="Leaderboard" class="task-icon" />', link: '/leaderboard' }
     ];
 
     tasks.forEach(task => {

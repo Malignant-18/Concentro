@@ -392,3 +392,8 @@ hr {
 .custom-delete-btn:hover {
     color: rgb(79, 52, 8);
 }
+
+.h4 {
+    color: rgb(97, 95, 95);
+    text-align: center;
+}
