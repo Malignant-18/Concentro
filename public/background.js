@@ -22,14 +22,28 @@ async function updateTrackingState(isTracking, goal = "") {
 async function analyzeUrl(tabId, url) {
   if (!isTrackingEnabled || !url || url.startsWith('chrome://')) return;
 
+  // Get stored whitelist and blacklist
+  const { whitelist = [] } = await chrome.storage.local.get(['whitelist']);
+  const { blacklist = [] } = await chrome.storage.local.get(['blacklist']);
+
+  console.log("Retrieved whitelist:", whitelist);
+  console.log("Retrieved blacklist:", blacklist);
+
+  // Check if the URL is in the whitelist
+  if (whitelist.some(pattern => url.includes(pattern))) {
+    console.log(`URL is whitelisted: ${url}. No redirection will occur.`);
+    return; // Exit the function if the URL is whitelisted
+  }
+
   const payload = {
     url: url,
     task: currentGoal,
-    whitelist: ["python.org", "docs.python.org"],
-    blacklist: ["facebook.com", "twitter.com"]
+    whitelist: whitelist,  // Use the retrieved whitelist
+    blacklist: blacklist   // Use the retrieved blacklist
   };
 
   console.log(`Sending URL to backend: ${url}`);
+  console.log("Payload:", payload);  // Log the payload to verify the values
 
   try {
     const response = await fetch("http://localhost:8000/analyze", {
@@ -41,21 +55,18 @@ async function analyzeUrl(tabId, url) {
     const data = await response.json();
     console.log("Tracking response:", data);
 
-    // Check if the response indicates relevance
     if (data.is_relevant) {
-      lastRelevantUrl = url; // Update last relevant URL
+      lastRelevantUrl = url;
       console.log(`Updated last relevant URL: ${lastRelevantUrl}`);
     } else {
       console.log("Content is not relevant. Redirecting to the last relevant URL:", lastRelevantUrl);
       if (lastRelevantUrl) {
-        // Redirect to the last relevant URL
         chrome.tabs.update(tabId, { url: lastRelevantUrl });
       } else {
         console.log("No last relevant URL to redirect to.");
       }
     }
 
-    // Send tracking results to the tab
     chrome.tabs.sendMessage(tabId, {
       type: "displayTrackingResult",
       success: true,

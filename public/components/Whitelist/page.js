@@ -49,15 +49,21 @@ export function Whitelist() {
     addBlacklistButton.className = 'mt-5 px-4 py-2 bg-red-400 text-white rounded hover:bg-red-300 transition button';
     addBlacklistButton.textContent = 'Add + ';
 
+    // Get the current active tab's URL
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const currentUrl = tabs[0].url;
+        input.value = currentUrl; // Set the input value to the current URL
+    });
+
     // Add entry to whitelist
-    addButton.addEventListener('click', () => {
+    addButton.addEventListener('click', async () => {
         const url = input.value.trim();
         if (url) {
+            const { whitelist = [] } = await chrome.storage.local.get(['whitelist']);
+            whitelist.push(url);
+            await chrome.storage.local.set({ whitelist });
             const listItem = document.createElement('li');
-            const urlBox = document.createElement('div');
-            urlBox.className = 'url-box';
-            urlBox.textContent = url;
-            listItem.appendChild(urlBox);
+            listItem.textContent = url;
             whitelistList.appendChild(listItem);
             input.value = ''; // Clear input field
         } else {
@@ -66,14 +72,14 @@ export function Whitelist() {
     });
 
     // Add entry to blacklist
-    addBlacklistButton.addEventListener('click', () => {
+    addBlacklistButton.addEventListener('click', async () => {
         const url = blacklistInput.value.trim();
         if (url) {
+            const { blacklist = [] } = await chrome.storage.local.get(['blacklist']);
+            blacklist.push(url);
+            await chrome.storage.local.set({ blacklist });
             const listItem = document.createElement('li');
-            const urlBox = document.createElement('div');
-            urlBox.className = 'url-box';
-            urlBox.textContent = url;
-            listItem.appendChild(urlBox);
+            listItem.textContent = url;
             blacklistList.appendChild(listItem);
             blacklistInput.value = ''; // Clear input field
         } else {
@@ -85,10 +91,13 @@ export function Whitelist() {
     submitButton.className = 'mt-5 px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-300 transition button';
     submitButton.textContent = 'Submit Task !';
 
-    submitButton.addEventListener('click', () => {
+    submitButton.addEventListener('click', async () => {
         const taskText = input.value.trim();
-        const whitelist = Array.from(whitelistList.children).map(li => li.textContent);
-        const blacklist = Array.from(blacklistList.children).map(li => li.textContent);
+        const { whitelist = [] } = await chrome.storage.local.get(['whitelist']);
+        const { blacklist = [] } = await chrome.storage.local.get(['blacklist']);
+
+        console.log("Received whitelist:", whitelist); // Log the received whitelist
+        console.log("Received blacklist:", blacklist); // Log the received blacklist
 
         if (taskText) {
             console.log("User input received:", taskText);
@@ -96,8 +105,8 @@ export function Whitelist() {
             chrome.runtime.sendMessage({
                 type: "startTracking",
                 goal: taskText,
-                whitelist: whitelist,
-                blacklist: blacklist
+                whitelist: whitelist || [],
+                blacklist: blacklist || []
             }, function(response) {
                 console.log("Full response from background:", response);
                 if (response && response.success) {
