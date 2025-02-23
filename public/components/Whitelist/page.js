@@ -21,7 +21,7 @@ export function Whitelist() {
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'mt-5 w-full p-2 border border-gray-400 rounded';
-    input.placeholder = 'Enter website URL...';
+    input.placeholder = 'eg : stackoverflow.com';
     
     const addButton = document.createElement('button');
     addButton.className = 'mt-5 px-4 py-2 bg-yellow-400 text-gray-800 rounded hover:bg-yellow-300 transition button';
@@ -43,17 +43,12 @@ export function Whitelist() {
     const blacklistInput = document.createElement('input');
     blacklistInput.type = 'text';
     blacklistInput.className = 'mt-5 w-full p-2 border border-gray-400 rounded';
-    blacklistInput.placeholder = 'Enter website URL...';
+    blacklistInput.placeholder = 'eg : instagram.com';
 
     const addBlacklistButton = document.createElement('button');
     addBlacklistButton.className = 'mt-5 px-4 py-2 bg-red-400 text-white rounded hover:bg-red-300 transition button';
     addBlacklistButton.textContent = 'Add + ';
 
-    // Get the current active tab's URL
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const currentUrl = tabs[0].url;
-        input.value = currentUrl; // Set the input value to the current URL
-    });
 
     // Add entry to whitelist
     addButton.addEventListener('click', async () => {
