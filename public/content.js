@@ -1,8 +1,6 @@
-// Initialize tracking state
 let isTrackingActive = false;
 let currentTrackingGoal = "";
 
-// Check tracking state on load
 function checkTrackingState() {
   chrome.runtime.sendMessage({ type: "getTrackingState" }, (response) => {
     if (chrome.runtime.lastError) {
@@ -22,15 +20,11 @@ function checkTrackingState() {
   });
 }
 
-// Listen for messages from the background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "displayTrackingResult") {
       console.log("Received tracking results:", message.data);
-      // Handle the tracking results for this tab
       if (message.success) {
-        // Display tracking status
         injectGlowingDot();
-        // You can add more UI elements or notifications here
       }
     } else if (message.type === "stopTracking") {
       // Remove tracking indicators
@@ -39,12 +33,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
   });
 
-// Create or update the glowing dot
 function createOrUpdateDot() {
   let dot = document.getElementById('tracking-dot');
   
   if (!dot) {
-    // Only create styles once
     if (!document.getElementById('tracking-dot-styles')) {
       const styles = `
         #tracking-dot {
@@ -83,13 +75,10 @@ function createOrUpdateDot() {
   return dot;
 }
 
-// Check state when page loads
 document.addEventListener('DOMContentLoaded', checkTrackingState);
 
-// Periodically check tracking state
 setInterval(checkTrackingState, 5000);
 
-// Check state when page becomes visible
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') {
     checkTrackingState();
@@ -97,7 +86,6 @@ document.addEventListener('visibilitychange', () => {
 });
 
   
-  // Ensure dot remains visible after dynamic content loads
   const observer = new MutationObserver((mutations) => {
     chrome.runtime.sendMessage({ type: "getTrackingState" }, (response) => {
       if (response && response.isTracking && !document.getElementById('tracking-dot')) {
@@ -106,13 +94,11 @@ document.addEventListener('visibilitychange', () => {
     });
   });
   
-  // Start observing the document with configured parameters
   observer.observe(document.body, {
     childList: true,
     subtree: true
   });
 
-// Function to create and show a notification box
 function showNotification(message, isRelevant) {
   const notificationBox = document.createElement('div');
   notificationBox.style.position = 'fixed';
@@ -126,22 +112,20 @@ function showNotification(message, isRelevant) {
   notificationBox.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
   
   if (isRelevant) {
-    notificationBox.style.backgroundColor = 'green'; // Green for relevant
+    notificationBox.style.backgroundColor = 'green'; 
   } else {
-    notificationBox.style.backgroundColor = 'red'; // Red for not relevant
+    notificationBox.style.backgroundColor = 'red';
   }
 
   notificationBox.innerText = message;
 
   document.body.appendChild(notificationBox);
 
-  // Remove the notification after 5 seconds
   setTimeout(() => {
     notificationBox.remove();
   }, 5000);
 }
 
-// Listen for messages from the background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "displayTrackingResult") {
     showNotification(message.data.is_relevant ? "Website matches task!" : "Website doesn't match task!", message.data.is_relevant);

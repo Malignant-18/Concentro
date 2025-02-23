@@ -1,4 +1,3 @@
-/* public/styles.css */
 
 body {
     min-width: 300px;
@@ -13,33 +12,31 @@ body {
 }
 
 .welcome-title {
-    font-weight: normal; /* Regular weight for "Welcome to" */
-    font-size: 2rem; /* Adjust size if needed */
+    font-weight: normal;
+    font-size: 2rem; 
     margin-bottom: 2rem;
 }
 
-/* Style for "Concentro" */
 .concentro-title {
-    font-weight: 900; /* Bolder weight for "Concentro" */
-    font-size: 2.5rem; /* Optional: Adjust size if needed */
-    color: #000; /* Optional: Set color if needed */
+    font-weight: 900; 
+    font-size: 2.5rem; 
+    color: #000; 
 }
 
 .productivity-image {
-    width: 100%; /* Make the image responsive */
-    max-width: 700px; /* Set a maximum width */
-    height: auto; /* Maintain aspect ratio */
-    margin-top: 80px; /* Add space above the image */
-    border-radius: 8px; /* Optional: Add rounded corners */
+    width: 100%; 
+    max-width: 700px; 
+    height: auto; 
+    margin-top: 80px; 
+    border-radius: 8px; 
 }
-/* Grid Layout */
+
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
 }
 
-/* Button Styles */
 button {
     background-color: #fbbf24;
     color: #1f2937;
@@ -59,7 +56,6 @@ button:hover {
     background-color: #fcd34d;
 }
 
-/* Text Styles */
 .text-lg {
     font-size: 1.125rem;
 }
@@ -80,7 +76,6 @@ button:hover {
     margin-top: 1.5rem;
 }
 
-/* Title Styles */
 h1 {
     font-size: 1.875rem;
     font-weight: bold;
@@ -93,42 +88,38 @@ h2 {
     text-align: center;
 }
 
-/* Underline */
 hr {
     margin: 1rem 0;
     border: 0;
     border-top: 1px solid #e5e7eb;
 }
 
-/* Image styles for task icons */
 .task-icon {
-    height: 1rem; /* Adjust height */
-    width: 0.75rem; /* Adjust width */
+    height: 1rem; 
+    width: 0.75rem;     
     margin-right: 0.5rem;
 }
 
-/* Button text alignment */
 .button-content {
-    text-align: left; /* Align text to the left */
-    display: flex; /* Use flexbox for alignment */
-    align-items: center; /* Center items vertically */
+    text-align: left; 
+    display: flex; 
+    align-items: center; 
     width: 100%;
 }
 
-/* Coffee Button Styles */
 .coffee-button {
-    width: 100%; /* Full width */
-    margin-top: 1.5rem; /* Margin on top */
-    display: flex; /* Flexbox for alignment */
-    align-items: center; /* Center items vertically */
-    justify-content: space-between; /* Space between text and SVG */
-    border-radius: 0.5rem; /* Rounded corners */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
-    padding: 0.75rem; /* Padding */
-    transition: background-color 0.2s; /* Transition for background color */
-    background-color: rgb(253, 244, 224); /* Background color */
-    color: #1f2937; /* Text color */
-    border: 1px solid #d1d5db; /* Border */
+    width: 100%; 
+    margin-top: 1.5rem; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    padding: 0.75rem; 
+    transition: background-color 0.2s; 
+    background-color: rgb(253, 244, 224);
+    color: #1f2937; 
+    border: 1px solid #d1d5db; 
 }
 
 .coffee-button:hover {
@@ -137,185 +128,170 @@ hr {
 
 .coffee-button-text {
     display: flex;
-    flex-direction: column; /* Stack the text vertically */
-    align-items: flex-start; /* Align text to the left */
-    justify-content: start; /* Start alignment */
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: start; 
 }
 
 .coffee-button-text .main-text {
-    color: black; /* Black color for the main text */
-    font-size: 1.25rem; /* Larger font size for the main text */
+    color: black; 
+    font-size: 1.25rem; 
 }
 
 .coffee-button-text .sub-text {
-    color: rgb(72, 71, 71); /* Gray color for the sub text */
-    font-size: 0.875rem; /* Smaller font size for the sub text */
+    color: rgb(72, 71, 71); 
+    font-size: 0.875rem; 
 }
 
-/* SVG Icon Styles */
 .coffee-button svg {
-    margin-left: 0.5rem; /* Add margin to the left of the SVG */
-    width: 24px; /* Set width */
-    height: 24px; /* Set height */
+    margin-left: 0.5rem; 
+    width: 24px; 
+    height: 24px;
 }
 
-/* Coffee Image Styles */
 .coffee-img {
-    height: 24px; /* Set the desired height */
-    width: 24px; /* Set the desired width */
-    margin-right: 0.5rem; /* Add some space to the right of the image */
+    height: 24px; 
+    width: 24px; 
+    margin-right: 0.5rem; 
 }
 
-/* General Button Styles */
 .button {
-    padding: 0.5rem 1rem; /* Padding for buttons */
-    border-radius: 0.375rem; /* Rounded corners */
-    transition: background-color 0.2s; /* Transition for background color */
+    padding: 0.5rem 1rem; 
+    border-radius: 0.375rem;
+    transition: background-color 0.2s; 
 }
 
-/* Specific Button Styles */
 .button-yellow {
-    background-color: #fbbf24; /* Yellow background */
-    color: #1f2937; /* Text color */
+    background-color: #fbbf24; 
+    color: #1f2937;
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
 .button-yellow:hover {
-    background-color: #fcd34d; /* Lighter yellow on hover */
+    background-color: #fcd34d; 
 }
 
 .button-gray {
-    background-color: #4b5563; /* Gray background */
-    color: white; /* White text */
+    background-color: #4b5563; 
+    color: white; 
 }
 
 .button-gray:hover {
-    background-color: #374151; /* Darker gray on hover */
+    background-color: #374151; 
 }
 
-/* Textarea Styles */
 .textarea {
-    margin-top: 1.25rem; /* Margin on top */
-    width: 100%; /* Full width */
-    height: 4rem; /* Height */
-    padding: 0.5rem; /* Padding */
-    border: 1px solid #9ca3af; /* Border color */
-    border-radius: 0.375rem; /* Rounded corners */
+    margin-top: 1.25rem; 
+    width: 100%;
+    height: 4rem; 
+    padding: 0.5rem; 
+    border: 1px solid #9ca3af; 
+    border-radius: 0.375rem; 
     margin-bottom: 1rem;
 }
-/* Style for the URL boxes */
+
 .url-box {
-    background-color: #f0f0f0; /* Light gray background */
-    border: 1px solid #ccc; /* Light gray border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px; /* Padding inside the box */
-    margin: 5px 0; /* Margin between boxes */
+    background-color: #f0f0f0; 
+    border: 1px solid #ccc;
+    border-radius: 5px; 
+    padding: 10px; 
+    margin: 5px 0; 
 }
 
-/* Style for buttons */
 .button {
-    margin: 10px 0px; /* Add margin to buttons for spacing */
+    margin: 10px 0px; 
 }
 
-/* Additional styles for the button colors */
 .button-yellow {
-    background-color: #fcd34d; /* Yellow background */
-    color: #000; /* Black text */
+    background-color: #fcd34d; 
+    color: #000; 
 }
 
 .button-red {
-    background-color: #ef4444; /* Red background */
-    color: #fff; /* White text */
+    background-color: #ef4444; 
+    color: #fff; 
 }
 
 .button-gray {
-    background-color: #6b7280; /* Gray background */
-    color: #fff; /* White text */
+    background-color: #6b7280;
+    color: #fff; 
 }
 .button-right {
-    margin-left: auto; /* Pushes the button to the right */
+    margin-left: auto; 
 }
 
 
-/* General container styles */
 .pomodoro-container {
     padding: 20px;
-    background-color: #f9f9f9; /* Light background for the container */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    max-width: 400px; /* Limit the width of the container */
-    margin: auto; /* Center the container */
+    background-color: #f9f9f9; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    max-width: 400px; 
+    margin: auto; 
 }
 
-/* Title styles */
 .pomodoro-container h1 {
-    font-size: 2rem; /* Larger font size for the title */
-    color: #333; /* Darker text color */
-    margin-bottom: 10px; /* Space below the title */
+    font-size: 2rem; 
+    color: #333;
+    margin-bottom: 10px; 
 }
 
-/* Underline styles */
 .pomodoro-container hr {
-    border: 1px solid #ccc; /* Light gray border */
-    margin: 10px 0; /* Space above and below the underline */
+    border: 1px solid #ccc; 
+    margin: 10px 0; 
 }
 
-/* Description and break text styles */
 .pomodoro-container p {
-    font-size: 1rem; /* Standard font size */
-    color: #555; /* Medium gray text color */
-    margin: 5px 0; /* Space above and below paragraphs */
+    font-size: 1rem;
+    color: #555; 
+    margin: 5px 0; 
 }
 
-/* Timer display styles */
 .timer-display {
-    font-size: 2.5rem; /* Larger font size for the timer */
-    font-weight: bold; /* Bold text */
-    color: #000; /* Black text color */
-    margin: 20px 0; /* Space above and below the timer */
-    text-align: center; /* Center the timer text */
+    font-size: 2.5rem; 
+    font-weight: bold; 
+    color: #000;
+    margin: 20px 0; 
+    text-align: center; 
 }
 
-/* Button styles */
 .button {
-    padding: 10px 15px; /* Padding for buttons */
-    border: none; /* Remove default border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Smooth transition for background color */
+    padding: 10px 15px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
 }
 
-/* Specific button styles */
 .button-yellow {
-    background-color: #fcd34d; /* Yellow background */
-    color: #000; /* Black text */
+    background-color: #fcd34d;
+    color: #000; 
 }
 
 .button-yellow:hover {
-    background-color: #fbbf24; /* Darker yellow on hover */
+    background-color: #fbbf24; 
 }
 
 .button-gray {
-    background-color: #6b7280; /* Gray background */
-    color: #fff; /* White text */
+    background-color: #6b7280; 
+    color: #fff; 
 }
 
 .button-gray:hover {
-    background-color: #4b5563; /* Darker gray on hover */
+    background-color: #4b5563; 
 }
 
 .button-red {
-    background-color: #ef4444; /* Red background */
-    color: #fff; /* White text */
+    background-color: #ef4444; 
+    color: #fff;
 }
 
 .button-red:hover {
-    background-color: #dc2626; /* Darker red on hover */
+    background-color: #dc2626; 
 }
 
-/* Notification styles */
 .notification {
     position: fixed;
     top: 10px;
@@ -328,13 +304,12 @@ hr {
     transition: opacity 0.5s ease;
 }
 
-/* Specific styles for break and work notifications */
 .notification.break {
-    background-color: green; /* Green for break notifications */
+    background-color: green; 
 }
 
 .notification.work {
-    background-color: red; /* Red for work notifications */
+    background-color: red; 
 }
 
 .button-container {
@@ -354,17 +329,17 @@ hr {
 
 
 .input-field {
-    width: 100%;  /* Make input take full width of its grid cell */
+    width: 100%;  
 }
 
 .add-button {
-    justify-self: end;  /* Align button to the right */
-    white-space: nowrap;  /* Prevent button text from wrapping */
+    justify-self: end;  
+    white-space: nowrap;  
 }
 
 .list-item {
     display: flex;
-    justify-content: space-between; /* Puts text on left, button on right */
+    justify-content: space-between;
     align-items: center;
     padding: 8px 12px;
     background-color: #f3f3f3;
@@ -373,10 +348,10 @@ hr {
 }
 
 .url-text {
-    flex-grow: 1; /* Allows text to take up remaining space */
-    white-space: nowrap; /* Prevents text from wrapping */
+    flex-grow: 1; 
+    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* Adds "..." if text overflows */
+    text-overflow: ellipsis; 
 }
 
 .custom-delete-btn {

@@ -1,16 +1,14 @@
 let isTracking = false;
 let currentGoal = "";
-let lastRelevantUrl = ""; // Variable to store the last relevant URL
+let lastRelevantUrl = ""; 
 let isTrackingEnabled = true;
-let connectedPort; // Store the connected port for the popup
+let connectedPort; 
 let timer;
 
-// Middleware to check if a tracking session is active
 function isTrackingSessionActive() {
   return isTracking === true;
 }
 
-// Store tracking state
 async function updateTrackingState(isTracking, goal = "") {
   await chrome.storage.local.set({ 
     isTracking, 
@@ -18,32 +16,29 @@ async function updateTrackingState(isTracking, goal = "") {
   });
 }
 
-// Analyze URL against current goal
 async function analyzeUrl(tabId, url) {
   if (!isTrackingEnabled || !url || url.startsWith('chrome://')) return;
 
-  // Get stored whitelist and blacklist
   const { whitelist = [] } = await chrome.storage.local.get(['whitelist']);
   const { blacklist = [] } = await chrome.storage.local.get(['blacklist']);
 
   console.log("Retrieved whitelist:", whitelist);
   console.log("Retrieved blacklist:", blacklist);
 
-  // Check if the URL is in the whitelist
   if (whitelist.some(pattern => url.includes(pattern))) {
     console.log(`URL is whitelisted: ${url}. No redirection will occur.`);
-    return; // Exit the function if the URL is whitelisted
-  }
+    return; 
+    }
 
   const payload = {
     url: url,
     task: currentGoal,
-    whitelist: whitelist,  // Use the retrieved whitelist
-    blacklist: blacklist   // Use the retrieved blacklist
+    whitelist: whitelist,  
+    blacklist: blacklist   
   };
 
   console.log(`Sending URL to backend: ${url}`);
-  console.log("Payload:", payload);  // Log the payload to verify the values
+  console.log("Payload:", payload);  
 
   try {
     const response = await fetch("http://localhost:8000/analyze", {
@@ -78,9 +73,7 @@ async function analyzeUrl(tabId, url) {
   }
 }
 
-// Handle URL changes in the current tab
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  // Only process if we're tracking and the URL has completed loading
   if (isTracking && changeInfo.status === 'complete' && tab.url) {
     await analyzeUrl(tabId, tab.url);
   }
@@ -92,18 +85,15 @@ function handleStartTracking(message, sender, sendResponse) {
   
   console.log("Tracking started. Monitoring URL changes...");
 
-  // Immediately analyze the current URL of the active tab
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     if (tabs.length > 0) {
       const activeTab = tabs[0];
-      analyzeUrl(activeTab.id, activeTab.url); // Analyze the current URL immediately
+      analyzeUrl(activeTab.id, activeTab.url); 
     }
   });
 
-  // Store tracking state
   updateTrackingState(true, message.goal);
   
-  // Send success response
   sendResponse({ success: true, goal: message.goal });
 }
 
@@ -117,28 +107,23 @@ function handleStopTracking(message, sender, sendResponse) {
 
   console.log("Tracking stopped. No more URL monitoring.");
 
-  // Store tracking state
   updateTrackingState(false);
 
-  // Remove event listeners to prevent further tracking
   chrome.tabs.onUpdated.removeListener(handleURLChange);
   chrome.tabs.onCreated.removeListener(handleTabCreated);
   chrome.tabs.onActivated.removeListener(handleTabActivated);
 
-  // Close any open ports to stop communication
   if (connectedPort) {
     connectedPort.disconnect();
     connectedPort = null;
   }
 
-  // Send response confirming tracking has stopped
   sendResponse({ success: true });
 }
 
 
 
 
-// Update tab tracking when URL changes
 function handleURLChange(tabId, changeInfo, tab) {
   if (isTrackingSessionActive() && changeInfo.url) {
     console.log(`URL changed in tab ${tabId}: ${changeInfo.url}`);
@@ -146,7 +131,6 @@ function handleURLChange(tabId, changeInfo, tab) {
   }
 }
 
-// Handle new tab creation
 function handleTabCreated(tab) {
   if (isTrackingSessionActive()) {
     console.log(`New tab opened: ${tab.id}, URL = ${tab.url || "about:blank"}`);
@@ -156,7 +140,6 @@ function handleTabCreated(tab) {
   }
 }
 
-// Handle tab activation
 function handleTabActivated(activeInfo) {
   if (isTrackingSessionActive()) {
     chrome.tabs.get(activeInfo.tabId, (tab) => {
@@ -168,7 +151,6 @@ function handleTabActivated(activeInfo) {
   }
 }
 
-// Message handler
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "startTracking") {
     console.log("Received task:", message.goal);
@@ -184,7 +166,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     isTrackingEnabled = message.enabled;
     console.log("Tracking enabled:", isTrackingEnabled);
   } else if (message.type === 'startTimer') {
-    // Clear any existing timer
     if (timer) {
       clearInterval(timer);
     }
