@@ -98,15 +98,34 @@ function handleStartTracking(message, sender, sendResponse) {
 
 function handleStopTracking(message, sender, sendResponse) {
   isTracking = false;
+  console.log("tracking variable" ,isTracking)
   currentGoal = "";
-  lastRelevantUrl = ""; // Reset the last relevant URL
-  
+  console.log("previos relavant url : ",lastRelevantUrl);
+  lastRelevantUrl = "";
+  console.log("URL noww ",lastRelevantUrl);
+
+  console.log("Tracking stopped. No more URL monitoring.");
+
   // Store tracking state
   updateTrackingState(false);
-  
-  // Send success response
+
+  // Remove event listeners to prevent further tracking
+  chrome.tabs.onUpdated.removeListener(handleURLChange);
+  chrome.tabs.onCreated.removeListener(handleTabCreated);
+  chrome.tabs.onActivated.removeListener(handleTabActivated);
+
+  // Close any open ports to stop communication
+  if (connectedPort) {
+    connectedPort.disconnect();
+    connectedPort = null;
+  }
+
+  // Send response confirming tracking has stopped
   sendResponse({ success: true });
 }
+
+
+
 
 // Update tab tracking when URL changes
 function handleURLChange(tabId, changeInfo, tab) {

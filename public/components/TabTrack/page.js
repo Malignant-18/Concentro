@@ -60,6 +60,29 @@ export function TabTrack() {
             alert("Please enter a task first!");
         }
     });
+    clearButton.addEventListener("click", () => {
+        console.log("User pressed clear button");
+      
+        // Send message to background script to stop tracking
+        chrome.runtime.sendMessage({ type: "stopTracking" }, function (response) {
+          if (chrome.runtime.lastError) {
+            console.error("Error sending stopTracking message:", chrome.runtime.lastError.message);
+            return;
+          }
+      
+          // Log the entire response to confirm tracking has stopped
+          console.log("Full response from background:", response);
+      
+          if (response && response.success) {
+            console.log("Tracking successfully stopped.");
+            // Update UI accordingly (if needed)
+            document.getElementById("title").innerText = "TrackingStopped"; 
+          } else {
+            console.error("Failed to stop tracking.");
+          }
+        });
+      });
+      
     
     function displayTask(task) {
         console.log("Displaying task:", task); // Debugging log
